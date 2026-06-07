@@ -6,7 +6,9 @@ A tiny free toolkit that keeps Claude Code **fast and cheap** on long projects.
 curl -fsSL https://raw.githubusercontent.com/ohwisey/claude-credit-saver/main/install.sh | bash
 ```
 
-Then **start a new Claude Code session**. That's it.
+Then **start a new Claude Code session** so it loads. That's it.
+
+> Already have Claude Code open? Reload it once so the new commands appear — `Cmd/Ctrl + Shift + P → Developer: Reload Window`. Your chat is kept. (New sessions get the commands automatically; only already-open ones need the reload.)
 
 ---
 
@@ -14,9 +16,9 @@ Then **start a new Claude Code session**. That's it.
 
 When a chat gets long, a quiet reminder appears under the reply — never in the way, and you can dismiss it anytime:
 
-![The handoff reminder in a chat](docs/screenshots/reminder.png)
+> 💡 This chat is getting long — to save credits, run /handoff → /clear → /resume.  ·  /handoff-hide to dismiss
 
-<!-- To add/replace this image: drop a PNG at docs/screenshots/reminder.png and commit. -->
+<!-- Want a real screenshot here? Easiest: edit this README on github.com, click the pencil, and drag a PNG into the text box — GitHub hosts it for you. Or save one at docs/screenshots/reminder.png and use: ![The reminder in a chat](docs/screenshots/reminder.png) -->
 
 ---
 
