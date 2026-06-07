@@ -6,7 +6,7 @@
 set -e
 
 # Set automatically when published. Lets "curl ... | bash" download what it needs.
-RAW_BASE="https://raw.githubusercontent.com/REPLACE_ME/claude-credit-saver/main"
+RAW_BASE="https://raw.githubusercontent.com/ohwisey/claude-credit-saver/main"
 
 CLAUDE_DIR="${HOME}/.claude"
 CMD_DIR="${CLAUDE_DIR}/commands"
@@ -32,9 +32,11 @@ get() { # $1 = path relative to repo root
 mkdir -p "$CMD_DIR" "$HOOK_DIR"
 
 # 1) Commands
-get commands/handoff.md > "$CMD_DIR/handoff.md"
-get commands/resume.md  > "$CMD_DIR/resume.md"
-echo "  - installed /handoff and /resume"
+get commands/handoff.md      > "$CMD_DIR/handoff.md"
+get commands/resume.md       > "$CMD_DIR/resume.md"
+get commands/handoff-hide.md > "$CMD_DIR/handoff-hide.md"
+get commands/handoff-show.md > "$CMD_DIR/handoff-show.md"
+echo "  - installed /handoff, /resume, /handoff-hide, /handoff-show"
 
 # 2) Scripts
 get scripts/statusline.sh         > "$CLAUDE_DIR/credit-saver-statusline.sh"
@@ -52,10 +54,16 @@ jq \
   --arg hk "$HOOK_DIR/credit-saver-check.sh" '
   .statusLine = {type:"command", command:$sl, refreshInterval:5}
   | .hooks = (.hooks // {})
-  | .hooks.Stop = (
-      [ (.hooks.Stop // [])[]
+  # clean up any old Stop-hook wiring from earlier versions
+  | (if .hooks.Stop then
+       .hooks.Stop = [ (.hooks.Stop[]) | select(((.hooks // []) | map(.command) | index($hk)) | not) ]
+       | (if (.hooks.Stop | length) == 0 then del(.hooks.Stop) else . end)
+     else . end)
+  # the warning is a UserPromptSubmit hook (the event that actually surfaces in the app)
+  | .hooks.UserPromptSubmit = (
+      [ (.hooks.UserPromptSubmit // [])[]
         | select(((.hooks // []) | map(.command) | index($hk)) | not) ]
-      + [ {matcher:"*", hooks:[{type:"command", command:$hk, timeout:10}]} ]
+      + [ {hooks:[{type:"command", command:$hk, timeout:10}]} ]
     )
 ' "$SETTINGS" > "$tmp" && mv "$tmp" "$SETTINGS"
 echo "  - wired up your settings (backup: ${SETTINGS}.creditsaver-backup)"

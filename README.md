@@ -25,7 +25,7 @@ So the trick is: when a chat gets long, jump to a fresh one. A fresh chat normal
 ## Install in one line
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/REPLACE_ME/claude-credit-saver/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ohwisey/claude-credit-saver/main/install.sh | bash
 ```
 
 That installs everything: the two commands, the meter, and the warning. It backs up your settings first and only adds to them, so nothing you already have is touched. (Needs `jq`. If you do not have it: `brew install jq` on Mac.)

@@ -25,6 +25,6 @@ Reference file paths and commit hashes instead of pasting large chunks of code. 
 ### Rules
 - Do not re-read the whole project to write this. Use what you already know from this session. That keeps making the note cheap too.
 - Save the file. Then, ONLY if this project uses git, commit it with a short message like "save handoff note". If it is not a git project, just leave the saved file. Do not error either way.
-- When done, reply with two short lines: the note's path, and "Start a fresh chat and type /resume."
+- When done, reply with two short lines: the note's path, and "Now run /clear, then /resume in this same window to continue cheaply."
 
 $ARGUMENTS
