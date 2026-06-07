@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code Credit Saver — context meter
+# Claude Code Credit Saver: context meter
 # Shows how full the current chat is (plus cost and plan usage) so you know
 # exactly when to /handoff. Claude Code feeds this script JSON on stdin.
 

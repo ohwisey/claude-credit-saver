@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code Credit Saver — one-line installer
+# Claude Code Credit Saver: one-line installer
 # Installs: /handoff + /resume commands, the context meter (status line),
 # and the long-chat warning hook. It backs up and safely MERGES your settings,
 # so nothing you already have is lost.
