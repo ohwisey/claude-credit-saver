@@ -2,13 +2,33 @@
 
 A tiny free toolkit that keeps Claude Code **fast and cheap** on long projects.
 
-You get two commands and an automatic meter:
+```bash
+curl -fsSL https://raw.githubusercontent.com/ohwisey/claude-credit-saver/main/install.sh | bash
+```
 
-- **`/handoff`** — saves your spot to a note
-- **`/resume`** — picks it back up in a fresh, cheap chat
-- **a context meter** at the bottom of your screen that warns you *before* a chat gets expensive
+Then **start a new Claude Code session**. That's it.
 
-If you remember one line: **when the chat gets long, `/handoff`, start a fresh chat, `/resume`. Same work, cheaper.**
+---
+
+## See it in action
+
+When a chat gets long, a quiet reminder appears under the reply — never in the way, and you can dismiss it anytime:
+
+![The handoff reminder in a chat](docs/screenshots/reminder.png)
+
+<!-- To add/replace this image: drop a PNG at docs/screenshots/reminder.png and commit. -->
+
+---
+
+## What you get
+
+- **`/handoff`** — saves your spot to a short note
+- **`/resume`** — picks it back up in a fresh, cheap chat (no copy-paste)
+- **`/handoff-hide`** — not ready to stop? Silence the reminder. It will **never nag you** again until you bring it back
+- **`/handoff-show`** — turn the reminder back on whenever you like
+- **a smart reminder** that watches your real token usage and gently suggests a handoff *only* when the chat has grown big enough to actually cost you money
+
+If you remember one line: **when a chat gets long, `/handoff` → `/clear` → `/resume`. Same work, fraction of the cost.**
 
 ---
 
@@ -16,23 +36,9 @@ If you remember one line: **when the chat gets long, `/handoff`, start a fresh c
 
 Every time you send a message, Claude re-reads the **whole chat** from the top before it answers.
 
-Picture a book. Every new sentence you add, Claude re-reads the whole book first. Short book, quick and cheap. Long book, slow and pricey, and it gets worse every message.
+Picture a book. Every new sentence you add, Claude re-reads the whole book first. Short book — quick and cheap. Long book — slow and pricey, and it gets worse with every message.
 
-So the trick is: when a chat gets long, jump to a fresh one. A fresh chat normally forgets everything, which is what these tools fix. (You are not stopping your work. You are dropping the heavy chat and continuing in a light one.)
-
----
-
-## Install in one line
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ohwisey/claude-credit-saver/main/install.sh | bash
-```
-
-That installs everything: the two commands, the meter, and the warning. It backs up your settings first and only adds to them, so nothing you already have is touched. (Needs `jq`. If you do not have it: `brew install jq` on Mac.)
-
-Then **start a new Claude Code session** so it loads.
-
-Prefer to do it by hand? See [Manual install](#manual-install) below.
+So the trick is: when a chat gets long, jump to a fresh one. A fresh chat normally forgets everything — which is exactly what these tools fix. (You're not stopping your work. You're dropping the heavy chat and continuing in a light one.)
 
 ---
 
@@ -41,30 +47,28 @@ Prefer to do it by hand? See [Manual install](#manual-install) below.
 Think of leaving work and writing a sticky note for tomorrow.
 
 - **`/handoff`** writes a short note of where you are.
-- **`/resume`** reads it in a fresh chat and keeps going. No copy-paste.
+- **`/resume`** reads it in a fresh chat and keeps going.
 
 The note has two parts:
 
 - **A short top part** ("RESUME HERE"): what you were doing, the next step, anything it needs to ask you.
 - **A longer bottom part**: extra detail, only read if needed.
 
-When you `/resume`, the new chat reads **only the short top part** and gets to work. It does not re-read your whole project. That is what saves the money.
+When you `/resume`, the new chat reads **only the short top part** and gets to work. It doesn't re-read your whole project. That's what saves the money.
 
 ---
 
-## The meter (so you never forget)
+## The reminder (so you never forget)
 
-After installing you get a small readout at the bottom of Claude Code:
+Once a chat grows past ~200k tokens — the point where each message starts costing real money — a small line appears under the reply:
 
-```
-* 38% full | $0.21 | 5h plan: 26%
-```
+> 💡 This chat is getting long — to save credits, run /handoff → /clear → /resume.  ·  /handoff-hide to dismiss
 
-- **green** under 50%, **yellow** 50 to 70%, **red** over 70%
-- at red it literally says `! 72% full - /handoff to save money`
-- it also shows your session cost and, on Pro/Max plans, how much of your 5-hour limit you have used
+- It reads your **real token usage**, so it's accurate — and it works on both the 200k and 1M-token context windows.
+- It's a **passive note** — it never takes any action on its own.
+- **Annoyed?** Run **`/handoff-hide`** and it goes completely silent. **`/handoff-show`** brings it back. Your call, always.
 
-On top of that, a quiet warning pops in once around 70% and again at 85%, so even if you are heads-down, it taps you on the shoulder before the bill climbs.
+(In the terminal you also get a live status-bar meter showing how full the chat is plus your session cost. In the VS Code panel, the reminder above is the signal.)
 
 ---
 
@@ -72,11 +76,11 @@ On top of that, a quiet warning pops in once around 70% and again at 85%, so eve
 
 ```
 1. /handoff      writes the note
-2. /clear        (or open a new chat) — fresh and light
+2. /clear        same window — instantly fresh and light
 3. /resume       reads the note, keeps going
 ```
 
-Three steps. The meter tells you when to start.
+Three steps, same window. The reminder tells you when.
 
 ---
 
@@ -94,22 +98,17 @@ These come with Claude Code, no install:
 **Will I lose my work or code?**
 No. A fresh chat only clears the conversation. Your files are never touched. `/handoff` even saves the note to a file.
 
-**Are `/handoff` and `/resume` real Claude Code features?**
-No. `/clear` and `/model` are built in. `/handoff`, `/resume`, and the meter are what this toolkit adds.
+**Are these real Claude Code features?**
+`/clear` and `/model` are built in. `/handoff`, `/resume`, `/handoff-hide`, `/handoff-show`, and the meter are what this toolkit adds.
 
-**Is the meter accurate?**
-Yes, the numbers come straight from Claude Code. One quirk: it is blank for the very first message of a chat (nothing has been counted yet), then it fills in.
+**Will the reminder ever do something I didn't ask?**
+No. It only displays a line — it never runs a handoff or anything else by itself.
 
 **Do I need git?**
 No. `/handoff` saves a normal file. If your project uses git, it also commits it. Either way works.
 
----
-
-## Manual install
-
-1. Copy `commands/handoff.md` and `commands/resume.md` into `~/.claude/commands/`.
-2. Copy `scripts/statusline.sh` and `scripts/check-context-size.sh` somewhere under `~/.claude/`, and `chmod +x` them.
-3. In `~/.claude/settings.json`, point `statusLine` at the statusline script and add the Stop hook. (The installer does this for you with a backup; only do it by hand if you like.)
+**Does it work on macOS, Linux, Windows?**
+Anywhere Claude Code runs. The installer needs `jq` (`brew install jq` on Mac, `apt-get install jq` on Linux).
 
 ---
 
@@ -122,9 +121,19 @@ claude-credit-saver/
   commands/
     handoff.md                saves your spot
     resume.md                 picks it back up
+    handoff-hide.md           silences the reminder
+    handoff-show.md           turns it back on
   scripts/
-    statusline.sh             the context meter
-    check-context-size.sh     the long-chat warning
+    statusline.sh             the terminal context meter
+    check-context-size.sh     the smart handoff reminder
 ```
 
 Small on purpose.
+
+---
+
+## Manual install
+
+1. Copy everything in `commands/` into `~/.claude/commands/`.
+2. Copy `scripts/statusline.sh` and `scripts/check-context-size.sh` somewhere under `~/.claude/`, and `chmod +x` them.
+3. In `~/.claude/settings.json`, point `statusLine` at the statusline script and add `check-context-size.sh` as a **UserPromptSubmit** hook. (The installer does this for you with a backup — only do it by hand if you prefer.)
