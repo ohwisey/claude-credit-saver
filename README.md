@@ -115,7 +115,7 @@ No. It only displays a line — it never runs a handoff or anything else by itse
 No. `/handoff` saves a normal file. If your project uses git, it also commits it. Either way works.
 
 **Does it work on macOS, Linux, Windows?**
-Anywhere Claude Code runs. The installer needs `jq` (`brew install jq` on Mac, `apt-get install jq` on Linux).
+macOS and Linux out of the box. On Windows, run it inside **WSL** (these are shell scripts). The installer needs `jq` (`brew install jq` on Mac, `sudo apt-get install jq` on Linux/WSL).
 
 ---
 
