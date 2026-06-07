@@ -16,14 +16,12 @@ Then **start a new Claude Code session** so it loads. That's it.
 
 When a chat gets long, a quiet reminder appears under the reply — never in the way:
 
-> 💡 This chat is getting long — to save credits, run /handoff → /clear → /resume.  ·  /handoff-hide to dismiss
+![The handoff reminder in a chat](docs/screenshots/reminder.png)
 
 Not ready to stop? Dismiss it in one command and it won't nag you again — bring it back whenever you like:
 
 > **You:** `/handoff-hide`
 > Handoff reminder hidden. Run `/handoff-show` to turn it back on.
-
-<!-- Want real screenshots here? Easiest: edit this README on github.com, click the pencil, and drag PNGs into the text box — GitHub hosts them for you. Or save them under docs/screenshots/ and reference like ![alt](docs/screenshots/reminder.png) -->
 
 ---
 
